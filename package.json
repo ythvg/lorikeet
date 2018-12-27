@@ -1,0 +1,16 @@
+{
+  "name": "lorikeet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Jim.Fun",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.1",
+    "electron": "^4.0.0",
+    "osenv": "^0.1.5"
+  }
+}
