@@ -37,8 +37,14 @@ function displayFile(file) {
 
     if (file.type == 'directory') {
         fileDiv.querySelector('img')
-            .addEventListener('dblclick', () => {
+            .addEventListener('click', () => {
                 loadDirectory(file.path)
+            }, false)
+    } else {
+        fileDiv.querySelector('img')
+            .addEventListener('click', () => {
+                // debugger
+                fileSystem.openFile(file.path)
             }, false)
     }
     fileDiv.querySelector('.filename').innerText = file.file

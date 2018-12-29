@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const osenv = require('osenv')
 const async = require('async')
+const shell = require('electron').shell
 
 function getUsersHomeFolder() {
     return osenv.home();
@@ -40,8 +41,13 @@ function inspectAndDescribeFiles(folderPath, files, displayFilesCb) {
     }, displayFilesCb)
 }
 
+function openFile (filePath) {
+    shell.openItem(filePath)
+}
+
 module.exports = {
     getUsersHomeFolder,
     getFilesInFolder,
-    inspectAndDescribeFiles
+    inspectAndDescribeFiles,
+    openFile
 }
