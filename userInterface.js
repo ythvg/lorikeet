@@ -1,5 +1,6 @@
 
 const fileSystem = require('./fileSystem')
+const search = require('./search')
 
 function displayFolderPath(folderPath) {
     document.getElementById('current-folder').innerText = folderPath;
@@ -27,7 +28,9 @@ function displayFile(file) {
     const mainArea = document.getElementById('main-area')
     const template = document.querySelector('#item-template')
     let fileDiv = document.importNode(template.content, true)
+
     fileDiv.querySelector('img').src = `images/${file.type}.svg`
+    fileDiv.querySelector('img').setAttribute('data-filePath', file.path)
 
     if (file.type == 'directory') {
         fileDiv.querySelector('img')
@@ -44,9 +47,38 @@ function displayFiles(err, files) {
         return alert('Sorry, we could not display your files')
     }
     files.forEach(displayFile)
+    search.resetIndex(files)
 }
 
+function bindSearchField(cb) {
+    document.getElementById('search').addEventListener('keyup', cb, false)
+}
+
+function filterResults(results) {
+    const validFilePaths = results.map(result => result.ref)
+    const items = document.getElementsByClassName('item')
+    for (let i = 0; i < items.length; i++) {
+        let item = items[i]
+        let filePath = item.getElementsByTagName('img')[0]
+            .getAttribute('data-filePath')
+        if (validFilePaths.indexOf(filePath) !== -1) {
+            item.style = null
+        } else {
+            item.style = 'display:none'
+        }
+    }
+}
+
+function resetFilter() {
+    const items = document.getElementsByClassName('item')
+    for (let i = 0; i < items.length; i++) {
+        items[i].style = null
+    }
+}
 module.exports = {
     displayFiles,
-    loadDirectory
+    loadDirectory,
+    bindSearchField,
+    filterResults,
+    resetFilter
 }
