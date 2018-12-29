@@ -1,9 +1,12 @@
 
 const fileSystem = require('./fileSystem')
 const search = require('./search')
+const path = require('path')
 
 function displayFolderPath(folderPath) {
-    document.getElementById('current-folder').innerText = folderPath;
+    document.getElementById('current-folder')
+        .innerHTML = convertFolderPathIntoLinks(folderPath)
+    bindCurrentFolderPath()
 }
 
 function clearView() {
@@ -75,6 +78,33 @@ function resetFilter() {
         items[i].style = null
     }
 }
+
+function convertFolderPathIntoLinks(folderPath) {
+    const folders = folderPath.split(path.sep)
+    const contents = []
+    let pathAtFolder = ''
+    folders.forEach((folder) => {
+        pathAtFolder += folder + path.sep
+        contents.push(`
+            <span class="path" data-path=${pathAtFolder.slice(0, -1)}>
+                ${folder}
+            </span>
+        `)
+    })
+    return contents.join('/')
+}
+
+function bindCurrentFolderPath() {
+    const load = (event) => {
+        const folderPath = event.target.getAttribute('data-path')
+        loadDirectory(folderPath)
+    }
+    const paths = document.getElementsByClassName('path')
+    for (let i = 0; i < paths.length; i++) {
+        paths[i].addEventListener('click', load, false)
+    }
+}
+
 module.exports = {
     displayFiles,
     loadDirectory,
