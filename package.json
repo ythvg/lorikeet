@@ -1,17 +1,26 @@
 {
   "name": "lorikeet",
   "version": "1.0.0",
-  "description": "",
+  "description": "A file explorer application",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "build"
   },
   "author": "Jim.Fun",
   "license": "ISC",
   "dependencies": {
     "async": "^2.6.1",
-    "electron": "^4.0.0",
     "lunr": "^2.3.5",
     "osenv": "^0.1.5"
+  },
+  "devDependencies": {
+    "electron": "^4.0.0",
+    "electron-builder": "^20.38.4"
+  },
+  "build": {
+    "mac": {
+      "icon": "images/icon.icns"
+    }
   }
 }
